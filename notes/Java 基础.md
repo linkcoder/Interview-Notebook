@@ -196,9 +196,9 @@ String 不可变性天生具备线程安全，可以在多个线程中安全地�
 
 ## String Pool
 
-字符串常量池（String Poll）保存着所有字符串字面量（literal strings），这些字面量在编译时期就确定。不仅如此，还可以使用 String 的 intern() 方法在运行过程中将字符串添加到 String Poll 中。
+字符串常量池（String Pool）保存着所有字符串字面量（literal strings），这些字面量在编译时期就确定。不仅如此，还可以使用 String 的 intern() 方法在运行过程中将字符串添加到 String Pool 中。
 
-当一个字符串调用 intern() 方法时，如果 String Poll 中已经存在一个字符串和该字符串值相等（使用 equals() 方法进行确定），那么就会返回 String Poll 中字符串的引用；否则，就会在 String Poll 中添加一个新的字符串，并返回这个新字符串的引用。
+当一个字符串调用 intern() 方法时，如果 String Pool 中已经存在一个字符串和该字符串值相等（使用 equals() 方法进行确定），那么就会返回 String Pool 中字符串的引用；否则，就会在 String Pool 中添加一个新的字符串，并返回这个新字符串的引用。
 
 下面示例中，s1 和 s2 采用 new String() 的方式新建了两个不同字符串，而 s3 和 s4 是通过 s1.intern() 方法取得一个字符串引用。intern() 首先把 s1 引用的字符串放到 String Pool 中，然后返回这个字符串引用。因此 s3 和 s4 引用的是同一个字符串。
 
@@ -219,7 +219,7 @@ String s6 = "bbb";
 System.out.println(s4 == s5);  // true
 ```
 
-在 Java 7 之前，String Poll 被放在运行时常量池中，它属于永久代。而在 Java 7，String Poll 被移到堆中。这是因为永久代的空间有限，在大量使用字符串的场景下会导致 OutOfMemoryError 错误。
+在 Java 7 之前，String Pool 被放在运行时常量池中，它属于永久代。而在 Java 7，String Pool 被移到堆中。这是因为永久代的空间有限，在大量使用字符串的场景下会导致 OutOfMemoryError 错误。
 
 - [StackOverflow : What is String interning?](https://stackoverflow.com/questions/10578984/what-is-string-interning)
 - [深入解析 String#intern](https://tech.meituan.com/in_depth_understanding_string_intern.html)
@@ -685,26 +685,26 @@ protected void finalize() throws Throwable {}
 
 **1. 等价关系** 
 
-（一）自反性
+Ⅰ 自反性
 
 ```java
 x.equals(x); // true
 ```
 
-（二）对称性
+Ⅱ 对称性
 
 ```java
 x.equals(y) == y.equals(x); // true
 ```
 
-（三）传递性
+Ⅲ 传递性
 
 ```java
 if (x.equals(y) && y.equals(z))
     x.equals(z); // true;
 ```
 
-（四）一致性
+Ⅳ 一致性
 
 多次调用 equals() 方法结果不变
 
@@ -712,7 +712,7 @@ if (x.equals(y) && y.equals(z))
 x.equals(y) == x.equals(y); // true
 ```
 
-（五）与 null 的比较
+Ⅴ 与 null 的比较
 
 对任何不是 null 的对象 x 调用 x.equals(null) 结果都为 false
 
@@ -741,6 +741,7 @@ System.out.println(x == y);      // false
 
 ```java
 public class EqualExample {
+
     private int x;
     private int y;
     private int z;
